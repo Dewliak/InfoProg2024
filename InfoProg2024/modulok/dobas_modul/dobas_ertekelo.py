@@ -1,6 +1,6 @@
 import logging
 
-from ..dobas.dobas import DobasData
+from .dobas import DobasData
 
 logger = logging.getLogger(__name__)
 

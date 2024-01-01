@@ -1,8 +1,7 @@
 from typing import List, Tuple, Callable
 import logging
 
-from InfoProg2024.modulok.dobas.dobas import DobasData
-from InfoProg2024.modulok.dobas_ertekelo.dobas_ertekelo import DobasErtekelo
+from InfoProg2024.modulok.dobas_modul import DobasData, DobasErtekelo
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -25,8 +24,6 @@ def ertekelesek_futtatasa(dobas_data: DobasData, ertekelo_set: set) -> List[Tupl
 
 
 if __name__ == "__main__":
-    test = DobasData([1, "2", 3, 4, 5, 6, 7, 8, 9])
-    print(test)
 
     HARDMODE = True
     points = 0
