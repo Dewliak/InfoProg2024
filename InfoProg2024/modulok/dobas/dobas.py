@@ -4,6 +4,11 @@ from dataclasses import dataclass, field
 from typing import List, Final
 import logging
 
+from InfoProg2024.modulok.dobas.dobas_exception import (
+    DobasElementTypeException,
+    DobasCountException,
+    DobasIntegerLimitException)
+
 logging.basicConfig(level=logging.DEBUG)
 
 # Konstansok
@@ -23,14 +28,13 @@ class DobasData:
     def __post_init__(self) -> None:
         # check if all elements all integers int dobas_sor
         if not all((type(element) is int) for element in self.dobas_sor):
-            raise Exception("Nem minden elem szám")
+            raise DobasElementTypeException
 
         if any((element > KOCKA_OLDALAK_SZAMA or element < 0) for element in self.dobas_sor):
-            raise Exception("A kocka legalább egyik oldala nem megfelelő,"
-                            "a 6 oldalú kocka 1-6 -ig vehet fel értékeket")
+            raise DobasIntegerLimitException(KOCKA_OLDALAK_SZAMA)
 
-        if len(self.dobas_sor) > DOBASOK_SZAMA:
-            raise Exception("Legfeljebb 5 dobás lehet")
+        if len(self.dobas_sor) != DOBASOK_SZAMA:
+            raise DobasCountException(DOBASOK_SZAMA)
 
         self.dobas_sor.sort()
 

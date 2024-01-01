@@ -2,7 +2,7 @@ import pytest
 
 from InfoProg2024.modulok.dobas.dobas import DobasData
 from InfoProg2024.modulok.dobas_ertekelo.dobas_ertekelo import DobasErtekelo
-
+from InfoProg2024.modulok.dobas.dobas import DobasCountException, DobasIntegerLimitException, DobasElementTypeException
 
 @pytest.mark.parametrize("dobas_data, varhato_ertek", [
     (DobasData([2, 3, 4, 5, 6]), 20),
