@@ -3,7 +3,6 @@ import pytest
 from InfoProg2024.modulok.dobas_modul.dobas_ertekelo import DobasData, DobasErtekelo
 
 
-
 @pytest.mark.parametrize("dobas_data, varhato_ertek", [
     (DobasData([2, 3, 4, 5, 6]), 20),
     (DobasData([3, 4, 2, 6, 5]), 20),

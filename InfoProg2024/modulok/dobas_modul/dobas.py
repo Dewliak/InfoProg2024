@@ -17,7 +17,6 @@ KOCKA_OLDALAK_SZAMA: Final[int] = 6
 
 
 def random_dobas() -> List[int]:
-
     return [random.randint(1, 6) for _ in range(DOBASOK_SZAMA)]
 
 
