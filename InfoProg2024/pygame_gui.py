@@ -1,90 +1,154 @@
 import pygame
 from sys import exit
 
-from InfoProg2024.modulok.dobas_modul import DobasData
-from InfoProg2024.modulok.kocka import Dice, DiceImages, DEFAULT_ROLLING_LENGTH, DEFUALT_ROLLING_INTERVAL
+from InfoProg2024.modulok.player import controller, Controller
 
-from enum import Enum
+from utilities.keyboard_press import Keyboard
+from utilities.states import State, GameStates
+from utilities import game_initialization
 
-class State(Enum):
-    MENU = 1
-    GAME = 2
-    HIGH_SCORES = 3
+from utilities.settings import settings
 
-class GameStates(Enum):
-    DICE_THROW = 1
-    SCORING = 2
-    END_GAME = 3
-
-STATE = State.MENU
+STATE = State.GAME
+GAME_STATE = GameStates.DICE_THROW
 
 pygame.init()
 clock = pygame.time.Clock()
+screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
+pygame.display.set_caption("Kockapóker")
 
-WIDTH = 1200
-HEIGHT = 600
-
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Dice Roll Stimulator")
-
-background_image = pygame.image.load('graphics/jatek_ter.png')
-highlight_image = pygame.image.load('graphics/highlighter.png').convert_alpha()
-rect = highlight_image.get_rect()
-rect.x = 684
-rect.y = 92
-HIGLIGHT_DELTA = 46
-
-font = pygame.font.Font('font/SunnyspellsRegular.otf', 50)
-roll_message = font.render("press SPACEBAR to start rolling", True, (255, 235, 193))
+from utilities import assets
 
 
+PLAYER_dices, CPU_dices = game_initialization.init_dices()
 
-dice_rolling_images = []
-
-
-dice_images = DiceImages()
-# snce there are 8 rolling dice images
-
-START_X = 70
-FIRST_ROW_Y = 105
-SECOND_ROW_Y = 368
-DISTANCE_BETWEEN_DICES = 115
-
-CPU_dice1 = Dice(x=START_X, y=FIRST_ROW_Y,dice_image=dice_images,rolling_images_limit=DEFAULT_ROLLING_LENGTH + DEFUALT_ROLLING_INTERVAL)
-CPU_dice2 = Dice(x=START_X + DISTANCE_BETWEEN_DICES,y=FIRST_ROW_Y,dice_image=dice_images,rolling_images_limit=DEFAULT_ROLLING_LENGTH + 2*DEFUALT_ROLLING_INTERVAL)
-CPU_dice3 = Dice(x=START_X + 2*DISTANCE_BETWEEN_DICES,y=FIRST_ROW_Y,dice_image=dice_images,rolling_images_limit=DEFAULT_ROLLING_LENGTH + 3*DEFUALT_ROLLING_INTERVAL)
-CPU_dice4 = Dice(x=START_X + 3*DISTANCE_BETWEEN_DICES,y=FIRST_ROW_Y,dice_image=dice_images,rolling_images_limit=DEFAULT_ROLLING_LENGTH + 4*DEFUALT_ROLLING_INTERVAL)
-CPU_dice5 = Dice(x=START_X + 4*DISTANCE_BETWEEN_DICES,y=FIRST_ROW_Y,dice_image=dice_images,rolling_images_limit=DEFAULT_ROLLING_LENGTH + 5*DEFUALT_ROLLING_INTERVAL)
-
-PLAYER_dice1 = Dice(x=START_X, y=SECOND_ROW_Y,dice_image=dice_images,rolling_images_limit=DEFAULT_ROLLING_LENGTH + DEFUALT_ROLLING_INTERVAL)
-PLAYER_dice2 = Dice(x=START_X + 1*DISTANCE_BETWEEN_DICES,y=SECOND_ROW_Y,dice_image=dice_images,rolling_images_limit=DEFAULT_ROLLING_LENGTH + 2*DEFUALT_ROLLING_INTERVAL)
-PLAYER_dice3 = Dice(x=START_X + 2*DISTANCE_BETWEEN_DICES,y=SECOND_ROW_Y,dice_image=dice_images,rolling_images_limit=DEFAULT_ROLLING_LENGTH + 3*DEFUALT_ROLLING_INTERVAL)
-PLAYER_dice4 = Dice(x=START_X + 3*DISTANCE_BETWEEN_DICES,y=SECOND_ROW_Y,dice_image=dice_images,rolling_images_limit=DEFAULT_ROLLING_LENGTH + 4*DEFUALT_ROLLING_INTERVAL)
-PLAYER_dice5 = Dice(x=START_X + 4*DISTANCE_BETWEEN_DICES,y=SECOND_ROW_Y,dice_image=dice_images,rolling_images_limit=DEFAULT_ROLLING_LENGTH + 5*DEFUALT_ROLLING_INTERVAL)
-
-CPU_dices = [CPU_dice1,CPU_dice2,CPU_dice3,CPU_dice4,CPU_dice5]
-PLAYER_dices = [PLAYER_dice1,PLAYER_dice2,PLAYER_dice3,PLAYER_dice4, PLAYER_dice5 ]
 
 dices = PLAYER_dices + CPU_dices
 
+### INIT PLAYERS ###
+PLAYER_TURN = True
 
-rolling_aud = pygame.mixer.Sound('audio/roll_aud.mp3')
-rolling_stop_aud = pygame.mixer.Sound('audio/roll_stop_aud.mp3')
+controller.player.dice_entities = PLAYER_dices
+controller.cpu.dice_entities = CPU_dices
 
-PLAYER_ROLL = False
-#is_rolling = False
-#rolling_images_counter = 0
-#dice_num_image = dice_images[0]x
-first = True
 
-UP_PRESSED = False
-DOWN_PRESSED = False
-LEFT_PRESSED = False
-RIGHT_PRESSED = False
 
-KOMBO_SZAM = 9
+
+
+
+
 index = 0
-HEIGHT = [100,150,200,400,500,600]
+
+def throw_state(screen, controller: Controller):
+
+    key = pygame.key.get_pressed()
+
+    for d in controller.inactive.dice_entities:
+        screen.blit(d.value_image, (d.x, d.y))
+
+    if key[pygame.K_SPACE] and controller.active.player_roll is False:
+
+        controller.active.uj_dobas()
+
+        assets.rolling_aud.play()
+
+        controller.active.player_roll = True
+
+        for i, d in enumerate(controller.active.dice_entities):
+            controller.active.dice_entities[i].is_rolling = True
+
+            controller.active.dice_entities[i].set_dice_value(controller.active.dobas.get_next())
+
+            controller.active.dice_entities[i].set_image()
+
+            screen.blit(controller.active.dice_entities[i].rolling_animation_image(), (d.x, d.y))
+            # screen.blit(dice_rolling_images[rolling_images_counter], (250, 150))
+            controller.active.dice_entities[i].rolling_images_counter += 1
+            # rolling_images_counter += 1
+    else:
+        if controller.active.player_roll:
+
+            for i, d in enumerate(controller.active.dice_entities):
+
+                print(d.is_rolling)
+                if not d.is_rolling:
+                    screen.blit(d.value_image, (d.x, d.y))
+                    continue
+
+                screen.blit(controller.active.dice_entities[i].rolling_animation_image(), (d.x, d.y))
+
+                controller.active.dice_entities[i].rolling_images_counter += 1
+
+                if d.rolling_images_counter >= d.rolling_images_limit:
+                    controller.active.dice_entities[i].is_rolling = False
+                    controller.active.dice_entities[i].rolling_images_counter = 0
+
+                    assets.rolling_stop_aud.play()
+
+            if all(not x.is_rolling for x in controller.active.dice_entities):
+                controller.active.player_roll = False
+                controller.change_active_player()
+
+        else:
+            for d in controller.active.dice_entities:
+                screen.blit(d.value_image, (d.x, d.y))
+                # screen.blit(dice_num_image, (250, 150))
+
+
+        if not controller.active.player_roll:
+            for d in controller.active.dice_entities:
+                screen.blit(d.value_image, (d.x, d.y))
+
+
+def game(screen, controller: Controller):
+
+    global index
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP and not Keyboard.UP_PRESSED:
+
+                Keyboard.UP_PRESSED = True
+                print("UP PRESSED")
+
+                if index > 0:
+                    index -= 1
+                    assets.highlight_image_rectangle.y -= assets.HIGLIGHT_DELTA
+
+            if event.key == pygame.K_DOWN and not Keyboard.DOWN_PRESSED:
+                Keyboard.DOWN_PRESSED = True
+                print("DOWN PRESSED")
+
+                if index < settings.KOMBO_SZAM - 1:
+                    index += 1
+                    assets.highlight_image_rectangle.y += assets.HIGLIGHT_DELTA
+                print(index)
+
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_UP and Keyboard.UP_PRESSED:
+                Keyboard.UP_PRESSED = False
+                print("UP UNPRESSED")
+
+            if event.key == pygame.K_DOWN and Keyboard.DOWN_PRESSED:
+                Keyboard.DOWN_PRESSED = False
+                print("DOWN UNPRESSED")
+
+
+    screen.blit(assets.background_image, (0, 0))
+    screen.blit(assets.roll_message, (50, 300))
+
+    screen.blit(assets.highlight_image, assets.highlight_image_rectangle)
+
+    match GAME_STATE:
+        case GameStates.DICE_THROW:
+            throw_state(screen,controller)
+
+
 
 while True:
 
@@ -93,112 +157,16 @@ while True:
             pass
 
         case State.GAME:
-            pass
+            game(screen, controller)
 
         case State.HIGH_SCORES:
             pass
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
-
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP and not UP_PRESSED:
-                                                           
-                UP_PRESSED = True
-                print("UP PRESSED")
-
-                if index > 0:
-                    index -= 1
-                    rect.y -= HIGLIGHT_DELTA
-
-            if event.key == pygame.K_DOWN and not DOWN_PRESSED:
-                DOWN_PRESSED = True
-                print("DOWN PRESSED")
-
-                if index < KOMBO_SZAM - 1:
-                    index += 1
-                    rect.y += HIGLIGHT_DELTA
-                print(index)
-
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP and UP_PRESSED:
-                UP_PRESSED = False
-                print("UP UNPRESSED")
-
-            if event.key == pygame.K_DOWN and DOWN_PRESSED:
-                DOWN_PRESSED = False
-                print("DOWN UNPRESSED")
-
-    screen.blit(background_image, (0, 0))
-    screen.blit(roll_message, (50, 300))
-
-    screen.blit(highlight_image,rect)
-
-    key = pygame.key.get_pressed()
 
 
 
 
-
-    if key[pygame.K_SPACE] and PLAYER_ROLL is False:
-
-        CPU_dobas_data = DobasData()
-        PLAYER_dobas_data= DobasData()
-
-        print("CPU",CPU_dobas_data)
-        print("PLAYER",PLAYER_dobas_data)
-
-        rolling_aud.play()
-
-
-        PLAYER_ROLL = True
-
-        for d in dices:
-            d.is_rolling = True
-            if(d in PLAYER_dices):
-                d.set_dice_value(PLAYER_dobas_data.get_next())
-            else:
-                d.set_dice_value(CPU_dobas_data.get_next())
-            d.set_image()
-
-            screen.blit(d.rolling_animation_image(), (d.x, d.y))
-            #screen.blit(dice_rolling_images[rolling_images_counter], (250, 150))
-            d.rolling_images_counter += 1
-            #rolling_images_counter += 1
-        first = True
-
-        # start rolling and calculate dice num
-    else:
-        if PLAYER_ROLL:
-            # showing rolling animation images
-            for d in dices:
-                if not d.is_rolling:
-                    screen.blit(d.value_image, (d.x, d.y))
-                    continue
-
-                screen.blit(d.rolling_animation_image(),(d.x, d.y))
-            #screen.blit(dice_rolling_images[rolling_images_counter], (250, 150))
-                d.rolling_images_counter += 1
-                if d.rolling_images_counter >= d.rolling_images_limit:
-                    d.is_rolling = False
-                    d.rolling_images_counter = 0
-                    rolling_stop_aud.play()
-                    #screen.blit(d.value_image, (d.x, d.y))
-
-
-            if not any(x.is_rolling == True for x in dices):
-                print("here")
-                PLAYER_ROLL = False
-        else:
-            for d in dices:
-                screen.blit(d.value_image, (d.x, d.y))
-                #screen.blit(dice_num_image, (250, 150))
-            if first:
-                rolling_stop_aud.play()
-                first = False
-            # show the dice which contains a number
 
     pygame.display.update()
     clock.tick(13)
+

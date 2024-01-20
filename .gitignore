@@ -1,3 +1,7 @@
 
 .idea/inspectionProfiles/profiles_settings.xml
 *.pyc 
+.idea/InfoProg2024.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
