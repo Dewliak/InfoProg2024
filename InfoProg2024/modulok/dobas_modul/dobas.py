@@ -39,6 +39,14 @@ class DobasData:
             raise DobasCountException(DOBASOK_SZAMA)
 
         self.dobas_sor.sort()
-
         self.counter_1 = collections.Counter(self.dobas_sor)
         self.counter_2 = collections.Counter(self.counter_1.values())
+
+        self.index = 0
+
+    def __getitem__(self, key: int) -> int:
+        return self.dobas_sor[key]
+
+    def get_next(self):
+        self.index = (self.index + 1) % len(self.dobas_sor)
+        return self.dobas_sor[self.index]
