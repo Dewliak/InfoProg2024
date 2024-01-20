@@ -30,6 +30,9 @@ pygame.display.set_caption("Dice Roll Stimulator")
 background_image = pygame.image.load('graphics/jatek_ter.png')
 highlight_image = pygame.image.load('graphics/highlighter.png').convert_alpha()
 rect = highlight_image.get_rect()
+rect.x = 684
+rect.y = 92
+HIGLIGHT_DELTA = 46
 
 font = pygame.font.Font('font/SunnyspellsRegular.otf', 50)
 roll_message = font.render("press SPACEBAR to start rolling", True, (255, 235, 193))
@@ -71,7 +74,7 @@ rolling_stop_aud = pygame.mixer.Sound('audio/roll_stop_aud.mp3')
 PLAYER_ROLL = False
 #is_rolling = False
 #rolling_images_counter = 0
-#dice_num_image = dice_images[0]
+#dice_num_image = dice_images[0]x
 first = True
 
 UP_PRESSED = False
@@ -82,8 +85,7 @@ RIGHT_PRESSED = False
 KOMBO_SZAM = 9
 index = 0
 HEIGHT = [100,150,200,400,500,600]
-rect.x = 685
-rect.y = 92
+
 while True:
 
     match STATE:
@@ -109,15 +111,16 @@ while True:
 
                 if index > 0:
                     index -= 1
-                    rect.y -= 52
+                    rect.y -= HIGLIGHT_DELTA
 
             if event.key == pygame.K_DOWN and not DOWN_PRESSED:
                 DOWN_PRESSED = True
                 print("DOWN PRESSED")
-                print(index)
+
                 if index < KOMBO_SZAM - 1:
                     index += 1
-                    rect.y += 52
+                    rect.y += HIGLIGHT_DELTA
+                print(index)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP and UP_PRESSED:

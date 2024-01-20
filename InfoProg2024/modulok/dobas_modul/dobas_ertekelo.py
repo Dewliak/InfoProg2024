@@ -51,6 +51,7 @@ class DobasErtekelo:
 
     @staticmethod
     def ket_par(dobas_data: DobasData) -> int:
+        #TODO EZ NEM BIZTOS HOGY MINDIG JO
         logging.debug(f"Parok: {dobas_data.counter_2}")
         if (dobas_data.counter_2[2] + dobas_data.counter_2[3]) != 2:
             return 0
