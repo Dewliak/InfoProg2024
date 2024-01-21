@@ -1,11 +1,13 @@
 import pygame
 from sys import exit
-
+from typing import Tuple, Callable, List
 from InfoProg2024.modulok.player import controller, Controller
+
 
 from utilities.keyboard_press import Keyboard
 from utilities.states import State, GameStates
 from utilities import game_initialization
+
 
 from utilities.settings import settings
 
@@ -18,7 +20,7 @@ screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
 pygame.display.set_caption("Kockapóker")
 
 from utilities import assets
-
+from utilities.scoreboard import ScoreBoard, ScoreType
 
 PLAYER_dices, CPU_dices = game_initialization.init_dices()
 
@@ -26,20 +28,24 @@ PLAYER_dices, CPU_dices = game_initialization.init_dices()
 dices = PLAYER_dices + CPU_dices
 
 ### INIT PLAYERS ###
-PLAYER_TURN = True
-
+scoreboard = ScoreBoard(screen)
 controller.player.dice_entities = PLAYER_dices
 controller.cpu.dice_entities = CPU_dices
-
-
-
-
-
-
-
+controller.cpu.set_hard_mode()
 index = 0
 
-def throw_state(screen, controller: Controller):
+def calculate_point(screen, controller: Controller, scoreboard: ScoreBoard):
+    if controller.active.is_cpu:
+        chosen: Tuple[int, Callable] = controller.active.play_hand()
+
+        score: int = chosen[0]
+        func: Callable = chosen[1]
+
+        scoreboard.create_text(score, func, ScoreType.CPU_SCORE)
+
+
+
+def throw_state(screen, controller: Controller, scoreboard: ScoreBoard):
 
     key = pygame.key.get_pressed()
 
@@ -70,7 +76,7 @@ def throw_state(screen, controller: Controller):
 
             for i, d in enumerate(controller.active.dice_entities):
 
-                print(d.is_rolling)
+
                 if not d.is_rolling:
                     screen.blit(d.value_image, (d.x, d.y))
                     continue
@@ -86,7 +92,16 @@ def throw_state(screen, controller: Controller):
                     assets.rolling_stop_aud.play()
 
             if all(not x.is_rolling for x in controller.active.dice_entities):
+
+
+                calculate_point(screen, controller, scoreboard)
+
                 controller.active.player_roll = False
+
+                #SCORE?!
+
+
+
                 controller.change_active_player()
 
         else:
@@ -146,11 +161,16 @@ def game(screen, controller: Controller):
 
     match GAME_STATE:
         case GameStates.DICE_THROW:
-            throw_state(screen,controller)
+            throw_state(screen,controller, scoreboard)
+
+    scoreboard.draw_scoreboard()
 
 
 
 while True:
+
+
+
 
     match STATE:
         case State.MENU:

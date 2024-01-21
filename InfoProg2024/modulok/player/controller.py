@@ -1,6 +1,9 @@
 from .player import Player
 from .cpu import CPU
 
+
+from typing import Union
+
 class Controller:
     def __init__(self, player: Player, cpu: CPU):
         self.player: Player = player
@@ -8,8 +11,8 @@ class Controller:
 
         self.player_turn = True
 
-        self.active = self.player
-        self.inactive = self.cpu
+        self.active: Union[Player, CPU] = self.player
+        self.inactive: Union[Player, CPU] = self.cpu
 
     def change_active_player(self):
         self.player_turn = not self.player_turn

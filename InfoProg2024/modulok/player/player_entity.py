@@ -9,6 +9,7 @@ class PlayerEntity:
         self.dobas = None
         self.player_roll = False
         self.pontok: int = 0
+        self.is_cpu = False
         self.pont_lista: List[Tuple[int, Callable]] = []
 
         self.kombinaciok: List[Callable] = [DobasErtekelo.tetszoleges_kombinacio, DobasErtekelo.par,
@@ -16,9 +17,14 @@ class PlayerEntity:
                                             DobasErtekelo.kis_poker, DobasErtekelo.full,
                                             DobasErtekelo.kis_sor, DobasErtekelo.nagy_sor, DobasErtekelo.nagy_poker]
 
+        self.maradek_jatek = len(self.kombinaciok)
         self.hasznalt_kombinaciok: List[bool] = [False for _ in range(len(self.kombinaciok))]
 
         self.dice_entities = []
+
+    def reset(self):
+        self.maradek_jatek = len(self.kombinaciok)
+        self.hasznalt_kombinaciok = [False for _ in range(len(self.kombinaciok))]
 
     def uj_dobas(self):
         self.dobas = DobasData()
