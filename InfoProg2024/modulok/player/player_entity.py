@@ -14,8 +14,8 @@ class PlayerEntity:
 
         self.kombinaciok: List[Callable] = [DobasErtekelo.tetszoleges_kombinacio, DobasErtekelo.par,
                                             DobasErtekelo.drill,DobasErtekelo.ket_par,
-                                            DobasErtekelo.kis_poker, DobasErtekelo.full,
-                                            DobasErtekelo.kis_sor, DobasErtekelo.nagy_sor, DobasErtekelo.nagy_poker]
+                                             DobasErtekelo.full, DobasErtekelo.kis_sor, DobasErtekelo.nagy_sor,
+                                            DobasErtekelo.kis_poker, DobasErtekelo.nagy_poker]
 
         self.maradek_jatek = len(self.kombinaciok)
         self.hasznalt_kombinaciok: List[bool] = [False for _ in range(len(self.kombinaciok))]

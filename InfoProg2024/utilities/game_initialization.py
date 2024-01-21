@@ -50,3 +50,6 @@ def init_dices():
     PLAYER_dices = [PLAYER_dice1, PLAYER_dice2, PLAYER_dice3, PLAYER_dice4, PLAYER_dice5]
 
     return CPU_dices, PLAYER_dices
+
+
+

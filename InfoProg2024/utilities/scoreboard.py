@@ -15,7 +15,7 @@ class ScoreBoard:
     start_y_coordinate = 96
     y_interval = 47
 
-    def __init__(self, screen):
+    def   __init__(self, screen):
 
         self.screen = screen
 

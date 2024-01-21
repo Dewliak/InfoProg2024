@@ -11,3 +11,4 @@ class GameStates(Enum):
     DICE_THROW = 1
     SCORING = 2
     END_GAME = 3
+    PLAYER_CHOOSE = 4

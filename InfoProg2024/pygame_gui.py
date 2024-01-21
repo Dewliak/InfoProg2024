@@ -34,19 +34,41 @@ controller.cpu.dice_entities = CPU_dices
 controller.cpu.set_hard_mode()
 index = 0
 
-def calculate_point(screen, controller: Controller, scoreboard: ScoreBoard):
-    if controller.active.is_cpu:
+def calculate_point(screen, controller: Controller, scoreboard: ScoreBoard) -> None:
+    global GAME_STATE
+    if controller.active.is_cpu and GAME_STATE == GameStates.SCORING  :
         chosen: Tuple[int, Callable] = controller.active.play_hand()
 
         score: int = chosen[0]
         func: Callable = chosen[1]
 
         scoreboard.create_text(score, func, ScoreType.CPU_SCORE)
+        controller.active.player_roll = False
+        controller.active.maradek_jatek -= 1
+        GAME_STATE = GameStates.DICE_THROW
+        controller.change_active_player()
+
+
+
+        return
+    else:
+        GAME_STATE = GameStates.PLAYER_CHOOSE
+
+        pontok: List[Tuple[int, Callable]] = controller.active.ertekelesek_futtatasa()
+
+        for p,func in pontok:
+            scoreboard.create_text(p, func, ScoreType.CALCULATED_SCORE)
+
+
+
+
+
+
 
 
 
 def throw_state(screen, controller: Controller, scoreboard: ScoreBoard):
-
+    global GAME_STATE
     key = pygame.key.get_pressed()
 
     for d in controller.inactive.dice_entities:
@@ -93,6 +115,7 @@ def throw_state(screen, controller: Controller, scoreboard: ScoreBoard):
 
             if all(not x.is_rolling for x in controller.active.dice_entities):
 
+                GAME_STATE = GameStates.SCORING
 
                 calculate_point(screen, controller, scoreboard)
 
@@ -102,7 +125,7 @@ def throw_state(screen, controller: Controller, scoreboard: ScoreBoard):
 
 
 
-                controller.change_active_player()
+
 
         else:
             for d in controller.active.dice_entities:
@@ -115,9 +138,21 @@ def throw_state(screen, controller: Controller, scoreboard: ScoreBoard):
                 screen.blit(d.value_image, (d.x, d.y))
 
 
+def render_dices(screen, controller):
+
+    for d in controller.active.dice_entities:
+        screen.blit(d.value_image, (d.x, d.y))
+        # screen.blit(dice_num_image, (250, 150))
+    for d in controller.inactive.dice_entities:
+        screen.blit(d.value_image, (d.x, d.y))
+
+
 def game(screen, controller: Controller):
 
-    global index
+    global index,GAME_STATE
+
+    if controller.active.maradek_jatek + controller.inactive.maradek_jatek <= 0:
+        GAME_STATE = GameStates.END_GAME
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -143,6 +178,35 @@ def game(screen, controller: Controller):
                     assets.highlight_image_rectangle.y += assets.HIGLIGHT_DELTA
                 print(index)
 
+            if event.key == pygame.K_RETURN and not Keyboard.SPACE_PRESSED and not controller.active.is_cpu:
+                Keyboard.SPACE_PRESSED = True
+
+                if GAME_STATE == GameStates.PLAYER_CHOOSE:
+                    #kivalasztjuk az indexet, ha nincs ott mar beirva valami ,akkor az adott erteket irjuk be
+
+                    choosen_index: int = index
+
+                    valasztott_kombinacio: Callable = controller.active.kombinaciok[index]
+
+                    if scoreboard.player_scores[valasztott_kombinacio] is None:
+                        pont: int = scoreboard.player_calculated_scores[valasztott_kombinacio]
+                        scoreboard.create_text(score = controller.active.kiszamolt_pontok[valasztott_kombinacio],
+                                               func = valasztott_kombinacio,
+                                               score_type= ScoreType.PLAYER_SCORE)
+                        controller.active.maradek_jatek -= 1
+
+                        controller.change_active_player()
+                        GAME_STATE = GameStates.DICE_THROW
+
+                        for key in scoreboard.player_calculated_scores.keys():
+                            scoreboard.player_calculated_scores[key] = None
+
+                        return
+                    else:
+                        print("Hasznalatban van")
+
+
+
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP and Keyboard.UP_PRESSED:
@@ -153,6 +217,8 @@ def game(screen, controller: Controller):
                 Keyboard.DOWN_PRESSED = False
                 print("DOWN UNPRESSED")
 
+            if event.key == pygame.K_RETURN and Keyboard.SPACE_PRESSED:
+                Keyboard.SPACE_PRESSED = False
 
     screen.blit(assets.background_image, (0, 0))
     screen.blit(assets.roll_message, (50, 300))
@@ -162,15 +228,17 @@ def game(screen, controller: Controller):
     match GAME_STATE:
         case GameStates.DICE_THROW:
             throw_state(screen,controller, scoreboard)
+        case GameStates.PLAYER_CHOOSE:
+            render_dices(screen, controller)
+        case GameStates.END_GAME:
+            print("END GAME")
 
     scoreboard.draw_scoreboard()
 
-
+def player_choose(screen, controller, scoreboard) -> None:
+    pass
 
 while True:
-
-
-
 
     match STATE:
         case State.MENU:
