@@ -1,0 +1,49 @@
+{
+  "scoreboard_data": {
+    "screen": "<Surface(1200x600x32 SW)>",
+    "player_score": "0",
+    "cpu_score": "0",
+    "player_column": "900",
+    "calculation_column": "1000",
+    "cpu_column": "1110",
+    "player_score_pos_y": "515",
+    "cpu_score_pos_y": "515",
+    "player_scores": "{<function DobasErtekelo.tetszoleges_kombinacio at 0x000002B86ECE85E0>: None, <function DobasErtekelo.par at 0x000002B86ECE8680>: None, <function DobasErtekelo.drill at 0x000002B86ECE8720>: None, <function DobasErtekelo.ket_par at 0x000002B86ECE87C0>: None, <function DobasErtekelo.full at 0x000002B86ECE84A0>: None, <function DobasErtekelo.kis_sor at 0x000002B86ECE8360>: None, <function DobasErtekelo.nagy_sor at 0x000002B86ECE82C0>: None, <function DobasErtekelo.kis_poker at 0x000002B86ECE8540>: None, <function DobasErtekelo.nagy_poker at 0x000002B86ECE8400>: None}",
+    "player_calculated_scores": "{<function DobasErtekelo.tetszoleges_kombinacio at 0x000002B86ECE85E0>: None, <function DobasErtekelo.par at 0x000002B86ECE8680>: None, <function DobasErtekelo.drill at 0x000002B86ECE8720>: None, <function DobasErtekelo.ket_par at 0x000002B86ECE87C0>: None, <function DobasErtekelo.full at 0x000002B86ECE84A0>: None, <function DobasErtekelo.kis_sor at 0x000002B86ECE8360>: None, <function DobasErtekelo.nagy_sor at 0x000002B86ECE82C0>: None, <function DobasErtekelo.kis_poker at 0x000002B86ECE8540>: None, <function DobasErtekelo.nagy_poker at 0x000002B86ECE8400>: None}",
+    "cpu_scores": "{<function DobasErtekelo.tetszoleges_kombinacio at 0x000002B86ECE85E0>: None, <function DobasErtekelo.par at 0x000002B86ECE8680>: None, <function DobasErtekelo.drill at 0x000002B86ECE8720>: None, <function DobasErtekelo.ket_par at 0x000002B86ECE87C0>: None, <function DobasErtekelo.full at 0x000002B86ECE84A0>: None, <function DobasErtekelo.kis_sor at 0x000002B86ECE8360>: None, <function DobasErtekelo.nagy_sor at 0x000002B86ECE82C0>: None, <function DobasErtekelo.kis_poker at 0x000002B86ECE8540>: None, <function DobasErtekelo.nagy_poker at 0x000002B86ECE8400>: None}",
+    "y_coordinate": "{<function DobasErtekelo.tetszoleges_kombinacio at 0x000002B86ECE85E0>: 96, <function DobasErtekelo.par at 0x000002B86ECE8680>: 143, <function DobasErtekelo.drill at 0x000002B86ECE8720>: 190, <function DobasErtekelo.ket_par at 0x000002B86ECE87C0>: 237, <function DobasErtekelo.full at 0x000002B86ECE84A0>: 284, <function DobasErtekelo.kis_sor at 0x000002B86ECE8360>: 331, <function DobasErtekelo.nagy_sor at 0x000002B86ECE82C0>: 378, <function DobasErtekelo.kis_poker at 0x000002B86ECE8540>: 425, <function DobasErtekelo.nagy_poker at 0x000002B86ECE8400>: 472}"
+  },
+  "controller": {
+    "player": "<InfoProg2024.modulok.player.player.Player object at 0x000002B86EB77380>",
+    "cpu": "<InfoProg2024.modulok.player.cpu.CPU object at 0x000002B86E9ABAD0>",
+    "player_name": "Player",
+    "player_turn": "True",
+    "active": "<InfoProg2024.modulok.player.player.Player object at 0x000002B86EB77380>",
+    "inactive": "<InfoProg2024.modulok.player.cpu.CPU object at 0x000002B86E9ABAD0>"
+  },
+  "player_data": {
+    "dobas": "DobasData(dobas_sor=[1, 1, 1, 1, 1])",
+    "player_roll": "False",
+    "pontok": "0",
+    "is_cpu": "False",
+    "pont_lista": "[]",
+    "kombinaciok": "[<function DobasErtekelo.tetszoleges_kombinacio at 0x000002B86ECE85E0>, <function DobasErtekelo.par at 0x000002B86ECE8680>, <function DobasErtekelo.drill at 0x000002B86ECE8720>, <function DobasErtekelo.ket_par at 0x000002B86ECE87C0>, <function DobasErtekelo.full at 0x000002B86ECE84A0>, <function DobasErtekelo.kis_sor at 0x000002B86ECE8360>, <function DobasErtekelo.nagy_sor at 0x000002B86ECE82C0>, <function DobasErtekelo.kis_poker at 0x000002B86ECE8540>, <function DobasErtekelo.nagy_poker at 0x000002B86ECE8400>]",
+    "maradek_jatek": "9",
+    "hasznalt_kombinaciok": "[False, False, False, False, False, False, False, False, False]",
+    "dice_entities": "[<InfoProg2024.modulok.kocka.dice.Dice object at 0x000002B86ECFE1E0>, <InfoProg2024.modulok.kocka.dice.Dice object at 0x000002B86ECFE180>, <InfoProg2024.modulok.kocka.dice.Dice object at 0x000002B86ECFE300>, <InfoProg2024.modulok.kocka.dice.Dice object at 0x000002B86ECFE330>, <InfoProg2024.modulok.kocka.dice.Dice object at 0x000002B86ECFE360>]",
+    "kiszamolt_pontok": "None"
+  },
+  "cpu_data": {
+    "dobas": "DobasData(dobas_sor=[1, 1, 1, 1, 1])",
+    "player_roll": "False",
+    "pontok": "0",
+    "is_cpu": "True",
+    "pont_lista": "[]",
+    "kombinaciok": "[<function DobasErtekelo.tetszoleges_kombinacio at 0x000002B86ECE85E0>, <function DobasErtekelo.par at 0x000002B86ECE8680>, <function DobasErtekelo.drill at 0x000002B86ECE8720>, <function DobasErtekelo.ket_par at 0x000002B86ECE87C0>, <function DobasErtekelo.full at 0x000002B86ECE84A0>, <function DobasErtekelo.kis_sor at 0x000002B86ECE8360>, <function DobasErtekelo.nagy_sor at 0x000002B86ECE82C0>, <function DobasErtekelo.kis_poker at 0x000002B86ECE8540>, <function DobasErtekelo.nagy_poker at 0x000002B86ECE8400>]",
+    "maradek_jatek": "9",
+    "hasznalt_kombinaciok": "[False, False, False, False, False, False, False, False, False]",
+    "dice_entities": "[<InfoProg2024.modulok.kocka.dice.Dice object at 0x000002B86DEF7C80>, <InfoProg2024.modulok.kocka.dice.Dice object at 0x000002B86ECFD2E0>, <InfoProg2024.modulok.kocka.dice.Dice object at 0x000002B86ECFE2A0>, <InfoProg2024.modulok.kocka.dice.Dice object at 0x000002B86ECFE2D0>, <InfoProg2024.modulok.kocka.dice.Dice object at 0x000002B86ECFE210>]",
+    "hard_mode": "True",
+    "szabad_kombinaciok": "{<function DobasErtekelo.nagy_poker at 0x000002B86ECE8400>, <function DobasErtekelo.par at 0x000002B86ECE8680>, <function DobasErtekelo.full at 0x000002B86ECE84A0>, <function DobasErtekelo.nagy_sor at 0x000002B86ECE82C0>, <function DobasErtekelo.drill at 0x000002B86ECE8720>, <function DobasErtekelo.kis_poker at 0x000002B86ECE8540>, <function DobasErtekelo.kis_sor at 0x000002B86ECE8360>, <function DobasErtekelo.ket_par at 0x000002B86ECE87C0>, <function DobasErtekelo.tetszoleges_kombinacio at 0x000002B86ECE85E0>}"
+  }
+}

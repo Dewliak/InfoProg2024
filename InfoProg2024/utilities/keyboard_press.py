@@ -5,3 +5,4 @@ class Keyboard:
     RIGHT_PRESSED = False
     SPACE_PRESSED = False
     ENTER_PRESSED = False
+    BACKSPACE_PRESSED = False

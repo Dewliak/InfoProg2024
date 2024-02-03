@@ -2,11 +2,11 @@ from typing import List, Tuple, Callable
 
 from InfoProg2024.modulok.dobas_modul import DobasData, DobasErtekelo
 
-
+ALAP_DOBAS = DobasData([1,1,1,1,1])
 class PlayerEntity:
     def __init__(self):
 
-        self.dobas = None
+        self.dobas = ALAP_DOBAS
         self.player_roll = False
         self.pontok: int = 0
         self.is_cpu = False

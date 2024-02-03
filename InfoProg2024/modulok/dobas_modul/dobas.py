@@ -4,11 +4,16 @@ from dataclasses import dataclass, field
 from typing import List, Final
 import logging
 
-from .dobas_exceptions import (
-    DobasElementTypeException,
-    DobasCountException,
-    DobasIntegerLimitException)
-
+try:
+    from .dobas_exceptions import (
+        DobasElementTypeException,
+        DobasCountException,
+        DobasIntegerLimitException)
+except ImportError:
+    from dobas_exceptions import (
+        DobasElementTypeException,
+        DobasCountException,
+        DobasIntegerLimitException)
 logging.basicConfig(level=logging.DEBUG)
 
 # Konstansok
@@ -50,3 +55,22 @@ class DobasData:
     def get_next(self):
         self.index = (self.index + 1) % len(self.dobas_sor)
         return self.dobas_sor[self.index]
+
+    def as_dict(self):
+        data = {
+            'dobas_sor': self.dobas_sor
+        }
+
+        return data
+
+def build_dobas_from_dict(dobas_dict: dict):
+
+    return DobasData(dobas_dict['dobas_sor'])
+
+if __name__ == "__main__":
+
+    d = DobasData()
+
+    print(d.as_dict())
+
+    print(build_dobas_from_dict(d.as_dict()))
