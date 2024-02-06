@@ -8,9 +8,9 @@ from ..dobas_modul import DobasData
 
 class Player(PlayerEntity):
     def __init__(self):
-         super().__init__()
+        super().__init__()
 
-         self.kiszamolt_pontok = None
+        self.kiszamolt_pontok = None
 
 
 

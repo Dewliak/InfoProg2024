@@ -1,4 +1,3 @@
-from InfoProg2024.modulok.dobas_modul.dobas_ertekelo import DobasErtekelo
 from .assets import font, FontColors
 
 from typing import Callable
@@ -76,7 +75,7 @@ class ScoreBoard:
                              DobasErtekelo.nagy_poker: ScoreBoard.start_y_coordinate + 8 * ScoreBoard.y_interval
                              }
 
-    def load_data(self,dict):
+    def load_data(self, dict):
         self.player_score = dict['player_score']
         for kv in dict['player_scores'].items():
             print(kv)
