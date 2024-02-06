@@ -2,24 +2,23 @@ import pprint
 import json
 
 
-def load_game(controller, scoreboard):
+def load_game(control):
 
     with open("saving.json", 'r') as f:
         data = json.load(f)
 
-        controller.load_data(data['controller'])
-        scoreboard.load_data(data['scoreboard'])
+        control.game_controller.load_data(data['controller'])
+        control.game_scoreboard.load_data(data['scoreboard'])
 
-        print("PLAYER DOBAS", controller.player.dobas)
+        print("PLAYER DOBAS", control.game_controller.player.dobas)
 
-        for i in range(len(controller.active.dice_entities)):
+        for i in range(len(control.game_controller.active.dice_entities)):
 
-            controller.active.dice_entities[i].set_dice_value(controller.active.dobas.get_next())
-            controller.inactive.dice_entities[i].set_dice_value(controller.inactive.dobas.get_next())
+            control.game_controller.active.dice_entities[i].set_dice_value(control.game_controller.active.dobas.get_next())
+            control.game_controller.inactive.dice_entities[i].set_dice_value(control.game_controller.inactive.dobas.get_next())
 
-            controller.active.dice_entities[i].set_image()
-            controller.inactive.dice_entities[i].set_image()
+            control.game_controller.active.dice_entities[i].set_image()
+            control.game_controller.inactive.dice_entities[i].set_image()
 
         pprint.pprint(data)
 
-    return controller, scoreboard
