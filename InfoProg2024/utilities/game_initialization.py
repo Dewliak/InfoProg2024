@@ -4,6 +4,9 @@ from .settings.dice_settings import START_X, FIRST_ROW_Y, DISTANCE_BETWEEN_DICES
 
 
 def init_dices():
+    """
+    Létrehozzá és hozzárendeli a megfelelő érétékeket a játékos és a gép kockáihoz
+    """
     dice_images = DiceImages()
 
     PLAYER_dice1 = Dice(x=START_X,
@@ -50,6 +53,3 @@ def init_dices():
     PLAYER_dices = [PLAYER_dice1, PLAYER_dice2, PLAYER_dice3, PLAYER_dice4, PLAYER_dice5]
 
     return CPU_dices, PLAYER_dices
-
-
-

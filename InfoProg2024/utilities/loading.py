@@ -1,10 +1,15 @@
 import pprint
 import json
 
+from InfoProg2024.utilities.settings.settings import SAVE_FILE_PATH
 
-def load_game(control):
 
-    with open("saving.json", 'r') as f:
+def load_game(control) -> None:
+    """
+    A játék adatainak beolvasása, json formátumban van elmentve a saving.json fájlban
+    És ezeket az adatokat beolvassa a contorl objektumba
+    """
+    with open(SAVE_FILE_PATH, 'r') as f:
         data = json.load(f)
 
         control.game_controller.load_data(data['controller'])
