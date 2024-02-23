@@ -11,6 +11,12 @@ class Controller:
     tudnak kommunikálni egymással a modulok, valamint az alapvető változók találhatóak meg benne
     """
     def __init__(self, player: Player, cpu: CPU):
+        """
+        :param player: Játékos objektum
+        :param cpu: Gép objektum
+
+        Elérhető metódusok: load_data, get_data_to_save, add_active_inactive, change_active_player, reset
+        """
         self.player: Player = player  # Játékos objektuma
         self.cpu: CPU = cpu  # Gép objektuma
 

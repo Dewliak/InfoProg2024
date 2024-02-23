@@ -1,17 +1,16 @@
 import pygame
-from sys import exit
-from typing import Tuple, Callable, List
+#from sys import exit
+#from typing import Tuple, Callable, List
 
 from InfoProg2024.modulok.player import controller, Controller
 
-
-from utilities.keyboard_press import Keyboard
-from utilities.states import State, GameStates
-from utilities import game_initialization
-from utilities.saving import save_game
-from utilities.loading import load_game
-from utilities.high_score import save_high_scores, load_high_scores, add_score_to_high_scores
-from utilities.settings import settings
+#from InfoProg2024.utilities.keyboard_press import Keyboard
+from InfoProg2024.utilities.states import State, GameStates
+from InfoProg2024.utilities import game_initialization
+#from InfoProg2024.utilities.saving import save_game
+#from InfoProg2024.utilities.loading import load_game
+#from InfoProg2024.utilities.high_score import save_high_scores, load_high_scores, add_score_to_high_scores
+from InfoProg2024.utilities.settings import settings
 
 import logging
 
@@ -22,10 +21,10 @@ clock = pygame.time.Clock()
 game_screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
 pygame.display.set_caption("Kockapóker")
 
-from utilities import assets
-from utilities.scoreboard import ScoreBoard, ScoreType
+from InfoProg2024.utilities import assets
+from InfoProg2024.utilities.scoreboard import ScoreBoard, ScoreType
 
-from utilities.gui_controller import GUIController
+from InfoProg2024.utilities.gui_controller import GUIController
 from InfoProg2024.utilities.game_state_modules.game import game
 from InfoProg2024.utilities.menu_state_modules.highscores import highscores
 from InfoProg2024.utilities.menu_state_modules.main_menu import main_menu
@@ -57,20 +56,13 @@ while True:
         case State.MENU.value:
             main_menu(gui_controller)
 
-            #print("this")
-
         case State.GAME.value:
-            #print("here2")
             game(gui_controller)
-
 
         case State.HIGH_SCORES.value:
             highscores(gui_controller)
         case State.SETTINGS.value:
             settings_screen(gui_controller)
 
-
-
-    #gui_controller.game_screen.display.update()
     pygame.display.update()
     clock.tick(13)

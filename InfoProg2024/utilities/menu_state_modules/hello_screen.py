@@ -42,10 +42,10 @@ def hello_screen(control: GUIController) -> None:
                     if event.key == pygame.K_BACKSPACE:
                         control.NAME_USER_TEXT = control.NAME_USER_TEXT[:-1]
 
-                    elif event.key == pygame.K_RETURN and control.NAME_USER_TEXT.strip() != "":
-                        control.game_controller.player_name = control.NAME_USER_TEXT
-                        control.HELLO_SCREEN_POINTER = 1
-                        #control.STATE = State.MENU
+                    elif event.key == pygame.K_RETURN:
+                        if control.NAME_USER_TEXT.strip() != "" and control.NAME_USER_TEXT.strip() != "CPU":
+                            control.game_controller.player_name = control.NAME_USER_TEXT
+                            control.HELLO_SCREEN_POINTER = 1
 
                     else:
                         if not (control.NAME_USER_TEXT.strip() == "" and event.unicode == " "):
